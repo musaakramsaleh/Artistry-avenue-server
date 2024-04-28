@@ -40,18 +40,11 @@ async function run() {
       const result = await cursor.toArray()
       res.send(result)
     })
-    
-    app.get('/paints/:id',async(req,res)=>{
-      const id = req.params.id
-      const query = {_id: new ObjectId(id)};
-      const user = await userCollection.findOne(query)
-      res.send(user)
-  })
+ 
   app.get('/paints/:email',async(req,res)=>{
-    const email = req.params.email
-    const query = {_id: email};
-    const user = await userCollection.findOne(query)
-    res.send(user)
+    console.log(req.params.email)
+    const result = await userCollection.find({email:req.params.email}).toArray()
+    res.send(result)
 })
     app.post('/addproduct',async(req,res)=>{
         const product = req.body;
