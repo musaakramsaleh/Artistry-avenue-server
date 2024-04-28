@@ -47,6 +47,12 @@ async function run() {
       const user = await userCollection.findOne(query)
       res.send(user)
   })
+  app.get('/paints/:email',async(req,res)=>{
+    const email = req.params.email
+    const query = {_id: email};
+    const user = await userCollection.findOne(query)
+    res.send(user)
+})
     app.post('/addproduct',async(req,res)=>{
         const product = req.body;
         console.log("new user",product)
