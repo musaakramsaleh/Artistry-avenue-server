@@ -35,7 +35,12 @@ async function run() {
     const database = client.db("painting");
     const userCollection = database.collection("paints");
 
-   
+    app.get('/paints',async(req,res)=>{
+      const cursor = userCollection.find()
+      const result = await cursor.toArray()
+      res.send(result)
+    })
+
     app.post('/addproduct',async(req,res)=>{
         const product = req.body;
         console.log("new user",product)
