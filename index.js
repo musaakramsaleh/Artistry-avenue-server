@@ -40,7 +40,14 @@ async function run() {
       const result = await cursor.toArray()
       res.send(result)
     })
- 
+     
+    app.get('/paint/:id',async(req,res)=>{
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)}
+      const result = await userCollection.findOne(query)
+      res.send(result)
+    })
+
   app.get('/paints/:email',async(req,res)=>{
     console.log(req.params.email)
     const result = await userCollection.find({email:req.params.email}).toArray()
@@ -48,12 +55,19 @@ async function run() {
 })
     app.post('/addproduct',async(req,res)=>{
         const product = req.body;
-        console.log("new user",product)
         const result = await userCollection.insertOne(product);
         res.send(result)
 
     })
    
+    app.delete('/paints/:id',async(req,res)=>{
+      const id = req.params.id
+      const query = {_id: new ObjectId(id)}
+      const result = await userCollection.deleteOne(query)
+      res.send(result)
+    })
+    
+    
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
