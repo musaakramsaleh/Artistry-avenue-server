@@ -60,6 +60,28 @@ async function run() {
 
     })
    
+    app.put('/paint/:id',async(req,res)=>{
+      const id = req.params.id
+      const filter = {_id: new ObjectId(id)}
+      const options = {upsert: true}
+      const updatedpaint = req.body
+      const paint = {
+        $set: {
+          image : updatedpaint.image,
+          item_name : updatedpaint.item_name,
+          subCategory : updatedpaint.subCategory,
+          description : updatedpaint.description,
+          price : updatedpaint.price, 
+          rating : updatedpaint.rating,
+          customization : updatedpaint.customization,
+          processing_time : updatedpaint.processing_time,
+          StockStatus : updatedpaint.StockStatus
+        }
+      }
+      const result = await userCollection.updateOne(filter,paint,options)
+      res.send(result)
+    })
+
     app.delete('/paints/:id',async(req,res)=>{
       const id = req.params.id
       const query = {_id: new ObjectId(id)}
