@@ -34,7 +34,7 @@ async function run() {
 
     const database = client.db("painting");
     const userCollection = database.collection("paints");
-
+    const categoryCollection = database.collection('category')
     app.get('/paints',async(req,res)=>{
       const cursor = userCollection.find()
       const result = await cursor.toArray()
@@ -59,7 +59,17 @@ async function run() {
         res.send(result)
 
     })
-   
+    app.post('/category',async(req,res)=>{
+      const category = req.body;
+      const result = await categoryCollection.insertOne(category);
+      res.send(result)
+
+  })
+  app.get('/category',async(req,res)=>{
+    const cursor = categoryCollection.find()
+    const result = await cursor.toArray()
+    res.send(result)
+  })
     app.put('/paint/:id',async(req,res)=>{
       const id = req.params.id
       const filter = {_id: new ObjectId(id)}
